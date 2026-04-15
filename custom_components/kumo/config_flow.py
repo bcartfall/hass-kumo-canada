@@ -11,7 +11,7 @@ except ImportError:
 from homeassistant.core import callback
 from homeassistant.util.json import load_json
 from homeassistant.helpers.json import save_json
-from pykumo import KumoCloudAccount
+from .lib_pykumo import KumoCloudAccount
 from requests.exceptions import ConnectionError
 
 from .const import DHCP_DISCOVERED_KEY, DOMAIN, KUMO_CONFIG_CACHE

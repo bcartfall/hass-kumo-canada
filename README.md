@@ -2,6 +2,9 @@
 
 [![Type](https://img.shields.io/badge/Type-Custom_Component-orange.svg)](https://github.com/dlarrick/hass-kumo) [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/custom-components/hacs)
 
+# Mitsubishi Kumo Cloud Canada
+
+Mitsubishi Kumo Cloud in Canada uses a different endpoint than the USA and is still using v2. This fork simply includes an updated `pykumo` library that changes the `https://geo-c.kumocloud.com/login` endpoint to `https://mesca-prod.kumocloud.com/login/v2`.
 
 # **Current Status PLEASE READ**
 

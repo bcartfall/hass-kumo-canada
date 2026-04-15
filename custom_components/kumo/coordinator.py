@@ -7,7 +7,7 @@ from typing import TypeVar
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import (DataUpdateCoordinator,
                                                       UpdateFailed)
-from pykumo import PyKumoBase
+from .lib_pykumo import PyKumoBase
 
 from .const import SCAN_INTERVAL
 

@@ -3,7 +3,7 @@ import logging
 from typing import Optional
 
 import homeassistant.helpers.config_validation as cv
-import pykumo
+from .lib_pykumo import KumoCloudAccount
 import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
@@ -110,7 +110,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     _LOGGER.warning("Could not load config from KumoCloud (V3 or V2)")
     return False
 
-async def async_kumo_setup_v3(hass: HomeAssistant, username: str, password: str, candidate_ips: dict = None) -> Optional[pykumo.KumoCloudAccount]:
+async def async_kumo_setup_v3(hass: HomeAssistant, username: str, password: str, candidate_ips: dict = None) -> Optional[KumoCloudAccount]:
     """Attempt setup using V3 API (Comfort app).
 
     Loads any cached kumo_dict first so device addresses are preserved.
@@ -119,9 +119,9 @@ async def async_kumo_setup_v3(hass: HomeAssistant, username: str, password: str,
         load_json, hass.config.path(KUMO_CONFIG_CACHE)
     )
     if cached_dict and isinstance(cached_dict, list) and len(cached_dict) >= 3:
-        account = pykumo.KumoCloudAccount(username, password, kumo_dict=cached_dict)
+        account = KumoCloudAccount(username, password, kumo_dict=cached_dict)
     else:
-        account = pykumo.KumoCloudAccount(username, password)
+        account = KumoCloudAccount(username, password)
 
     try:
         setup_success = await hass.async_add_executor_job(
@@ -140,15 +140,15 @@ async def async_kumo_setup_v3(hass: HomeAssistant, username: str, password: str,
 
     return None
 
-async def async_kumo_setup_v2(hass: HomeAssistant, prefer_cache: bool, username: str, password: str) -> Optional[pykumo.KumoCloudAccount]:
+async def async_kumo_setup_v2(hass: HomeAssistant, prefer_cache: bool, username: str, password: str) -> Optional[KumoCloudAccount]:
     """Attempt to load data from cache or V2 Kumo Cloud API."""
     if prefer_cache:
         cached_json = await hass.async_add_executor_job(
             load_json, hass.config.path(KUMO_CONFIG_CACHE)
         ) or {"fetched": False}
-        account = pykumo.KumoCloudAccount(username, password, kumo_dict=cached_json)
+        account = KumoCloudAccount(username, password, kumo_dict=cached_json)
     else:
-        account = pykumo.KumoCloudAccount(username, password)
+        account = KumoCloudAccount(username, password)
 
     setup_success = await hass.async_add_executor_job(account.try_setup)
 
